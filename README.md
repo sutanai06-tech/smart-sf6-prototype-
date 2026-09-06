@@ -10,17 +10,17 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
   :root{
-    /* dashboard theme */
-    --dk-bg:#0E1520; --dk-surface:#161F2C; --dk-surface2:#1C2635; --dk-border:#26313F;
-    --dk-text:#E8EDF3; --dk-muted:#8A97A6; --dk-teal:#35C7B3; --dk-amber:#F0A93E; --dk-red:#E5484D;
+    /* dashboard theme (Light & Yellow EGAT) */
+    --dk-bg:#F4F6F8; --dk-surface:#FFFFFF; --dk-surface2:#F9FAFB; --dk-border:#E4E7EB;
+    --dk-text:#1B2430; --dk-muted:#6B7580; --dk-teal:#F2A900; --dk-amber:#F0A93E; --dk-red:#E5484D;
     /* mobile theme */
-    --mb-bg:#EDEFEA; --mb-surface:#FFFFFF; --mb-border:#DDE1DA; --mb-text:#1B2430; --mb-muted:#6B7580;
-    --mb-orange:#FF6A3D; --mb-orange-dk:#E0501F; --mb-green:#2F9E68; --mb-amber:#E2A93B; --mb-red:#D64545;
+    --mb-bg:#F4F6F8; --mb-surface:#FFFFFF; --mb-border:#E4E7EB; --mb-text:#1B2430; --mb-muted:#6B7580;
+    --mb-orange:#F2A900; --mb-orange-dk:#D99700; --mb-green:#2F9E68; --mb-amber:#E2A93B; --mb-red:#D64545;
   }
   *{box-sizing:border-box; margin:0; padding:0;}
   body{
     font-family:'IBM Plex Sans','IBM Plex Sans Thai',sans-serif;
-    background:#080B10; color:var(--dk-text);
+    background:var(--dk-bg); color:var(--dk-text);
     min-height:100vh;
   }
   h1,h2,h3,.display{font-family:'Space Grotesk','IBM Plex Sans Thai',sans-serif;}
@@ -29,19 +29,19 @@
   /* ---------- top switcher ---------- */
   .switcher-bar{
     display:flex; align-items:center; justify-content:space-between;
-    padding:14px 28px; background:#080B10; border-bottom:1px solid #1A2230;
+    padding:14px 28px; background:var(--dk-surface); border-bottom:1px solid var(--dk-border);
     position:sticky; top:0; z-index:50;
   }
   .switcher-title{display:flex; align-items:center; gap:10px; font-size:14px; color:#6B7684;}
   .switcher-title .dot{width:8px;height:8px;border-radius:50%;background:var(--dk-teal);}
-  .tabs{display:flex; gap:4px; background:#12181F; border:1px solid #232C39; border-radius:10px; padding:4px;}
+  .tabs{display:flex; gap:4px; background:var(--dk-bg); border:1px solid var(--dk-border); border-radius:10px; padding:4px;}
   .tab-btn{
     font-family:'Space Grotesk',sans-serif; font-size:13px; font-weight:600; letter-spacing:.02em;
-    color:#7C8794; background:transparent; border:none; padding:8px 18px; border-radius:7px; cursor:pointer;
+    color:var(--dk-muted); background:transparent; border:none; padding:8px 18px; border-radius:7px; cursor:pointer;
     transition:background .15s, color .15s;
   }
-  .tab-btn.active{background:var(--dk-teal); color:#06231F;}
-  .tab-btn:not(.active):hover{color:#C7D0DA;}
+  .tab-btn.active{background:var(--dk-teal); color:#fff;}
+  .tab-btn:not(.active):hover{color:var(--dk-text);}
 
   .view{display:none; animation:fadein .25s ease;}
   .view.active{display:block;}
@@ -53,25 +53,25 @@
   #dashboard{ background:var(--dk-bg); min-height:calc(100vh - 57px); }
   .dash-shell{ display:grid; grid-template-columns:230px 1fr; min-height:calc(100vh - 57px);}
   .sidebar{
-    background:#0F161F; border-right:1px solid var(--dk-border); padding:24px 16px;
+    background:var(--dk-surface); border-right:1px solid var(--dk-border); padding:24px 16px;
     display:flex; flex-direction:column; gap:28px;
   }
   .brand{display:flex; flex-direction:column; gap:2px; padding:0 8px;}
   .brand-mark{display:flex; align-items:center; gap:9px;}
-  .brand-icon{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,var(--dk-teal),#1C8E7D); display:flex;align-items:center;justify-content:center; font-weight:700; color:#06231F; font-size:14px;}
+  .brand-icon{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,#FFC000,#F2A900); display:flex;align-items:center;justify-content:center; font-weight:700; color:#fff; font-size:14px;}
   .brand-name{font-size:15px; font-weight:600;}
   .brand-sub{font-size:11px; color:var(--dk-muted); padding-left:39px;}
   .nav-group{display:flex; flex-direction:column; gap:2px;}
-  .nav-label{font-size:10.5px; text-transform:uppercase; letter-spacing:.08em; color:#4E5966; padding:0 12px 6px; font-weight:600;}
+  .nav-label{font-size:10.5px; text-transform:uppercase; letter-spacing:.08em; color:var(--dk-muted); padding:0 12px 6px; font-weight:600;}
   .nav-item{
     display:flex; align-items:center; gap:10px; padding:9px 12px; border-radius:8px; font-size:13.5px;
-    color:#9AA5B1; cursor:pointer; transition:background .15s,color .15s;
+    color:var(--dk-muted); cursor:pointer; transition:background .15s,color .15s;
   }
   .nav-item svg{width:16px;height:16px; opacity:.85; flex-shrink:0;}
-  .nav-item.active{background:#182233; color:#F0F4F8;}
+  .nav-item.active{background:#FFF4D6; color:#D99700;}
   .nav-item.active svg{opacity:1; color:var(--dk-teal);}
-  .nav-item:not(.active):hover{background:#141C28; color:#C7D0DA;}
-  .station-select{margin-top:auto; padding:12px; background:#141C28; border:1px solid var(--dk-border); border-radius:10px;}
+  .nav-item:not(.active):hover{background:var(--dk-bg); color:var(--dk-text);}
+  .station-select{margin-top:auto; padding:12px; background:var(--dk-surface2); border:1px solid var(--dk-border); border-radius:10px;}
   .station-select label{font-size:10px; color:var(--dk-muted); text-transform:uppercase; letter-spacing:.06em;}
   .station-select select{
     width:100%; margin-top:6px; background:transparent; border:none; color:var(--dk-text);
@@ -86,20 +86,20 @@
   .dash-header .subtitle{font-size:13px; color:var(--dk-muted); margin-top:3px;}
   .range-controls{display:flex; gap:8px;}
   .chip{padding:7px 14px; border-radius:8px; border:1px solid var(--dk-border); background:var(--dk-surface); font-size:12.5px; color:var(--dk-muted); cursor:pointer;}
-  .chip.active{background:var(--dk-teal); color:#06231F; border-color:var(--dk-teal); font-weight:600;}
+  .chip.active{background:var(--dk-teal); color:#fff; border-color:var(--dk-teal); font-weight:600;}
 
   .alert-banner{
     display:flex; align-items:center; gap:12px; background:rgba(229,72,77,.12); border:1px solid rgba(229,72,77,.35);
-    color:#FFB4B6; padding:12px 16px; border-radius:10px; font-size:13px; margin-bottom:22px;
+    color:#D64545; padding:12px 16px; border-radius:10px; font-size:13px; margin-bottom:22px;
   }
-  .alert-banner b{color:#FF8D90;}
-  .alert-banner .go{margin-left:auto; font-size:12px; color:var(--dk-text); background:rgba(255,255,255,.08); padding:6px 12px; border-radius:6px; cursor:pointer; white-space:nowrap;}
+  .alert-banner b{color:#E5484D;}
+  .alert-banner .go{margin-left:auto; font-size:12px; color:var(--dk-text); background:rgba(0,0,0,.05); padding:6px 12px; border-radius:6px; cursor:pointer; white-space:nowrap;}
 
   .kpi-row{display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-bottom:22px;}
   .kpi-card{background:var(--dk-surface); border:1px solid var(--dk-border); border-radius:14px; padding:18px 18px 16px;}
   .kpi-label{font-size:12px; color:var(--dk-muted); display:flex; align-items:center; justify-content:space-between;}
   .kpi-trend{font-size:11px; padding:2px 7px; border-radius:20px; font-weight:600;}
-  .kpi-trend.up{background:rgba(53,199,179,.15); color:var(--dk-teal);}
+  .kpi-trend.up{background:rgba(242,169,0,.15); color:var(--dk-teal);}
   .kpi-trend.warn{background:rgba(240,169,62,.15); color:var(--dk-amber);}
   .kpi-value{font-size:26px; font-weight:600; margin-top:10px; font-family:'IBM Plex Mono',monospace;}
   .kpi-unit{font-size:13px; color:var(--dk-muted); font-weight:400; margin-left:4px;}
@@ -121,7 +121,7 @@
   .risk-info .name{font-size:13px; font-weight:600;}
   .risk-info .meta{font-size:11.5px; color:var(--dk-muted); margin-top:2px;}
   .risk-days{font-family:'IBM Plex Mono',monospace; font-size:13px; font-weight:600; text-align:right;}
-  .risk-days.high{color:#FF9496;}
+  .risk-days.high{color:#E5484D;}
   .risk-days.mid{color:var(--dk-amber);}
   .risk-days small{display:block; font-size:10px; color:var(--dk-muted); font-weight:400; font-family:'IBM Plex Sans',sans-serif;}
 
@@ -130,10 +130,10 @@
     text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:.05em; color:var(--dk-muted);
     padding:0 12px 10px; font-weight:600; border-bottom:1px solid var(--dk-border);
   }
-  table.data-table td{padding:12px; border-bottom:1px solid #1D2735;}
+  table.data-table td{padding:12px; border-bottom:1px solid var(--dk-border);}
   table.data-table tr:last-child td{border-bottom:none;}
   .status-pill{font-size:11px; padding:3px 10px; border-radius:20px; font-weight:600;}
-  .status-pill.verified{background:rgba(53,199,179,.15); color:var(--dk-teal);}
+  .status-pill.verified{background:rgba(242,169,0,.15); color:var(--dk-teal);}
   .status-pill.pending{background:rgba(240,169,62,.15); color:var(--dk-amber);}
   .mono-cell{font-family:'IBM Plex Mono',monospace;}
 
@@ -142,10 +142,10 @@
      ========================================================= */
   #mobile{ background:var(--dk-bg); min-height:calc(100vh - 57px); display:flex; align-items:flex-start; justify-content:center; gap:48px; padding:48px 24px; flex-wrap:wrap;}
   .phone{
-    width:375px; height:780px; background:var(--mb-bg); border-radius:44px; border:10px solid #101418;
-    box-shadow:0 30px 60px rgba(0,0,0,.5); position:relative; overflow:hidden; flex-shrink:0;
+    width:375px; height:780px; background:var(--mb-bg); border-radius:44px; border:10px solid #DDE1DA;
+    box-shadow:0 20px 40px rgba(0,0,0,.08); position:relative; overflow:hidden; flex-shrink:0;
   }
-  .phone-notch{position:absolute; top:0; left:50%; transform:translateX(-50%); width:120px; height:22px; background:#101418; border-radius:0 0 14px 14px; z-index:20;}
+  .phone-notch{position:absolute; top:0; left:50%; transform:translateX(-50%); width:120px; height:22px; background:#DDE1DA; border-radius:0 0 14px 14px; z-index:20;}
   .phone-screen{height:100%; display:flex; flex-direction:column; font-family:'IBM Plex Sans','IBM Plex Sans Thai',sans-serif; color:var(--mb-text);}
   .status-bar{padding:14px 22px 4px; display:flex; justify-content:space-between; font-size:12px; font-weight:600; color:#333;}
 
@@ -184,7 +184,7 @@
 
   .qr-screen{display:flex; flex-direction:column; align-items:center; padding-top:6px;}
   .qr-frame{
-    width:230px; height:230px; border-radius:24px; background:#12181F; position:relative; margin:14px 0 18px;
+    width:230px; height:230px; border-radius:24px; background:var(--mb-bg); position:relative; margin:14px 0 18px;
     display:flex; align-items:center; justify-content:center;
   }
   .qr-corner{position:absolute; width:28px; height:28px; border:3px solid var(--mb-orange);}
@@ -199,7 +199,7 @@
   .tank-card{background:var(--mb-surface); border:1px solid var(--mb-border); border-radius:16px; padding:16px; margin-top:16px;}
   .tank-card .id{font-size:11px; color:var(--mb-muted); font-family:'IBM Plex Mono',monospace;}
   .tank-card .name{font-size:15px; font-weight:700; margin-top:2px;}
-  .tank-row{display:flex; justify-content:space-between; font-size:12.5px; padding:8px 0; border-top:1px solid #F0F0EC;}
+  .tank-row{display:flex; justify-content:space-between; font-size:12.5px; padding:8px 0; border-top:1px solid var(--mb-border);}
   .tank-row span:first-child{color:var(--mb-muted);}
   .tank-row span:last-child{font-weight:600; font-family:'IBM Plex Mono',monospace;}
 
@@ -216,11 +216,11 @@
   .photo-slot.filled{background:#E4EAE3; border-style:solid; border-color:var(--mb-green); color:var(--mb-green); font-size:13px; font-weight:700;}
 
   .estimate-box{
-    background:linear-gradient(135deg,#1B2430,#12181F); color:#fff; border-radius:14px; padding:16px; margin-top:14px;
+    background:linear-gradient(135deg,#FFF7E0,#FDE08B); color:#1B2430; border-radius:14px; padding:16px; margin-top:14px;
   }
-  .estimate-box .label{font-size:11px; color:#9AA5B1; text-transform:uppercase; letter-spacing:.05em;}
+  .estimate-box .label{font-size:11px; color:#6B7580; text-transform:uppercase; letter-spacing:.05em;}
   .estimate-box .value{font-family:'IBM Plex Mono',monospace; font-size:22px; font-weight:600; margin-top:4px;}
-  .estimate-box .sub{font-size:11.5px; color:#7C8794; margin-top:6px;}
+  .estimate-box .sub{font-size:11.5px; color:#6B7580; margin-top:6px;}
 
   .btn-submit{
     width:100%; background:var(--mb-orange); color:#fff; border:none; border-radius:12px; padding:14px;
@@ -238,10 +238,10 @@
   .screen-picker{display:flex; flex-direction:column; gap:10px; width:180px; flex-shrink:0;}
   .screen-picker h4{font-size:12px; text-transform:uppercase; letter-spacing:.05em; color:#5C6774; margin-bottom:2px;}
   .screen-btn{
-    text-align:left; background:var(--dk-surface); border:1px solid var(--dk-border); color:#9AA5B1;
+    text-align:left; background:var(--dk-surface); border:1px solid var(--dk-border); color:var(--dk-muted);
     padding:10px 12px; border-radius:10px; font-size:12.5px; cursor:pointer;
   }
-  .screen-btn.active{background:var(--dk-teal); color:#06231F; font-weight:600; border-color:var(--dk-teal);}
+  .screen-btn.active{background:var(--dk-teal); color:#fff; font-weight:600; border-color:var(--dk-teal);}
 
   @media (max-width: 900px){
     .dash-shell{grid-template-columns:1fr;}
@@ -361,7 +361,7 @@
       <div class="panel">
         <div class="panel-head">
           <h3>แนวโน้มการลดคาร์บอนเครดิต (tCO2e)</h3>
-          <div class="tag"><span class="legend-dot" style="background:#35C7B3"></span>Actual &nbsp;&nbsp;<span class="legend-dot" style="background:#F0A93E"></span>Target</div>
+          <div class="tag"><span class="legend-dot" style="background:#F2A900"></span>Actual &nbsp;&nbsp;<span class="legend-dot" style="background:#8A97A6"></span>Target</div>
         </div>
         <canvas id="carbonChart" height="150"></canvas>
       </div>
@@ -435,12 +435,12 @@
       <table class="data-table">
         <thead><tr><th>สถานี</th><th>ถัง / Bay</th><th>ความดันล่าสุด</th><th>อุณหภูมิ</th><th>แนวโน้ม</th><th>สถานะ</th></tr></thead>
         <tbody>
-          <tr><td>บางปะกง</td><td class="mono-cell">GIS-B3 / TK-0231</td><td class="mono-cell" style="color:#FF9496">548 kPa</td><td class="mono-cell">33.1 °C</td><td class="mono-cell" style="color:#FF9496">-4.1%/wk</td><td><span class="status-pill" style="background:rgba(229,72,77,.15);color:#FF9496">เสี่ยงสูง</span></td></tr>
-          <tr><td>พระนครเหนือ</td><td class="mono-cell">GIS-A1 / TK-0104</td><td class="mono-cell" style="color:#FF9496">561 kPa</td><td class="mono-cell">31.8 °C</td><td class="mono-cell" style="color:#FF9496">-3.6%/wk</td><td><span class="status-pill" style="background:rgba(229,72,77,.15);color:#FF9496">เสี่ยงสูง</span></td></tr>
+          <tr><td>บางปะกง</td><td class="mono-cell">GIS-B3 / TK-0231</td><td class="mono-cell" style="color:#E5484D">548 kPa</td><td class="mono-cell">33.1 °C</td><td class="mono-cell" style="color:#E5484D">-4.1%/wk</td><td><span class="status-pill" style="background:rgba(229,72,77,.15);color:#E5484D">เสี่ยงสูง</span></td></tr>
+          <tr><td>พระนครเหนือ</td><td class="mono-cell">GIS-A1 / TK-0104</td><td class="mono-cell" style="color:#E5484D">561 kPa</td><td class="mono-cell">31.8 °C</td><td class="mono-cell" style="color:#E5484D">-3.6%/wk</td><td><span class="status-pill" style="background:rgba(229,72,77,.15);color:#E5484D">เสี่ยงสูง</span></td></tr>
           <tr><td>สุราษฎร์ธานี</td><td class="mono-cell">GIS-C2 / TK-0087</td><td class="mono-cell">598 kPa</td><td class="mono-cell">32.4 °C</td><td class="mono-cell" style="color:var(--dk-amber)">-1.8%/wk</td><td><span class="status-pill pending">เสี่ยงปานกลาง</span></td></tr>
           <tr><td>ชลบุรี 2</td><td class="mono-cell">GIS-A4 / TK-0056</td><td class="mono-cell">602 kPa</td><td class="mono-cell">30.9 °C</td><td class="mono-cell" style="color:var(--dk-amber)">-1.2%/wk</td><td><span class="status-pill pending">เสี่ยงปานกลาง</span></td></tr>
           <tr><td>บางปะกง</td><td class="mono-cell">GIS-B1 / TK-0012</td><td class="mono-cell">619 kPa</td><td class="mono-cell">29.7 °C</td><td class="mono-cell" style="color:var(--dk-teal)">คงที่</td><td><span class="status-pill verified">ปกติ</span></td></tr>
-          <tr><td>ชลบุรี 1</td><td class="mono-cell">GIS-C4 / TK-0198</td><td class="mono-cell">631 kPa</td><td class="mono-cell">28.4 °C</td><td class="mono-cell" style="color:#5C6774">ขาดสัญญาณ</td><td><span class="status-pill" style="background:rgba(138,151,166,.15);color:#8A97A6">Offline</span></td></tr>
+          <tr><td>ชลบุรี 1</td><td class="mono-cell">GIS-C4 / TK-0198</td><td class="mono-cell">631 kPa</td><td class="mono-cell">28.4 °C</td><td class="mono-cell" style="color:#8A97A6">ขาดสัญญาณ</td><td><span class="status-pill" style="background:rgba(138,151,166,.15);color:#8A97A6">Offline</span></td></tr>
         </tbody>
       </table>
     </div>
@@ -464,9 +464,9 @@
       <table class="data-table">
         <thead><tr><th>รหัสงาน</th><th>สถานี / ถัง</th><th>ความเร่งด่วน</th><th>ผู้รับผิดชอบ</th><th>กำหนดภายใน</th><th>สถานะ</th></tr></thead>
         <tbody>
-          <tr><td class="mono-cell">WO-2609-041</td><td class="mono-cell">บางปะกง / TK-0231</td><td><span class="status-pill" style="background:rgba(229,72,77,.15);color:#FF9496">สูง</span></td><td>สมชาย ใจดี</td><td>5 วัน</td><td><span class="status-pill pending">รอดำเนินการ</span></td></tr>
-          <tr><td class="mono-cell">WO-2609-042</td><td class="mono-cell">พระนครเหนือ / TK-0104</td><td><span class="status-pill" style="background:rgba(229,72,77,.15);color:#FF9496">สูง</span></td><td>วิชัย ทองดี</td><td>7 วัน</td><td><span class="status-pill pending">รอดำเนินการ</span></td></tr>
-          <tr><td class="mono-cell">WO-2609-039</td><td class="mono-cell">สุราษฎร์ธานี / TK-0087</td><td><span class="status-pill" style="background:rgba(240,169,62,.15);color:var(--dk-amber)">ปานกลาง</span></td><td>ประยุทธ แสงทอง</td><td>12 วัน</td><td><span class="status-pill" style="background:rgba(53,199,179,.12);color:#7FE0D2">กำลังทำ</span></td></tr>
+          <tr><td class="mono-cell">WO-2609-041</td><td class="mono-cell">บางปะกง / TK-0231</td><td><span class="status-pill" style="background:rgba(229,72,77,.15);color:#E5484D">สูง</span></td><td>สมชาย ใจดี</td><td>5 วัน</td><td><span class="status-pill pending">รอดำเนินการ</span></td></tr>
+          <tr><td class="mono-cell">WO-2609-042</td><td class="mono-cell">พระนครเหนือ / TK-0104</td><td><span class="status-pill" style="background:rgba(229,72,77,.15);color:#E5484D">สูง</span></td><td>วิชัย ทองดี</td><td>7 วัน</td><td><span class="status-pill pending">รอดำเนินการ</span></td></tr>
+          <tr><td class="mono-cell">WO-2609-039</td><td class="mono-cell">สุราษฎร์ธานี / TK-0087</td><td><span class="status-pill" style="background:rgba(240,169,62,.15);color:var(--dk-amber)">ปานกลาง</span></td><td>ประยุทธ แสงทอง</td><td>12 วัน</td><td><span class="status-pill" style="background:rgba(47,158,104,.15);color:#2F9E68">กำลังทำ</span></td></tr>
           <tr><td class="mono-cell">WO-2609-035</td><td class="mono-cell">บางปะกง / TK-0012</td><td><span class="status-pill" style="background:rgba(138,151,166,.15);color:#8A97A6">ปกติ</span></td><td>สมชาย ใจดี</td><td>เสร็จ 04 ก.ย.</td><td><span class="status-pill verified">เสร็จสิ้น</span></td></tr>
           <tr><td class="mono-cell">WO-2609-031</td><td class="mono-cell">ชลบุรี 2 / TK-0056</td><td><span class="status-pill" style="background:rgba(240,169,62,.15);color:var(--dk-amber)">ปานกลาง</span></td><td>วิชัย ทองดี</td><td>เสร็จ 02 ก.ย.</td><td><span class="status-pill verified">เสร็จสิ้น</span></td></tr>
           <tr><td class="mono-cell">WO-2609-028</td><td class="mono-cell">สุราษฎร์ธานี / TK-0021</td><td><span class="status-pill" style="background:rgba(138,151,166,.15);color:#8A97A6">ปกติ</span></td><td>ประยุทธ แสงทอง</td><td>เสร็จ 30 ส.ค.</td><td><span class="status-pill verified">เสร็จสิ้น</span></td></tr>
@@ -526,7 +526,7 @@
         <thead><tr><th>ชื่อ</th><th>อีเมล</th><th>บทบาท</th><th>สถานี</th><th>เข้าใช้ล่าสุด</th></tr></thead>
         <tbody>
           <tr><td>ผู้บริหาร สายงานผลิต</td><td class="mono-cell">exec01@egat.co.th</td><td><span class="status-pill verified">Executive</span></td><td>ทุกสถานี</td><td>วันนี้ 08:10</td></tr>
-          <tr><td>เจ้าหน้าที่ สิ่งแวดล้อม</td><td class="mono-cell">env02@egat.co.th</td><td><span class="status-pill" style="background:rgba(53,199,179,.12);color:#7FE0D2">Environment</span></td><td>ทุกสถานี</td><td>วันนี้ 09:02</td></tr>
+          <tr><td>เจ้าหน้าที่ สิ่งแวดล้อม</td><td class="mono-cell">env02@egat.co.th</td><td><span class="status-pill" style="background:rgba(47,158,104,.15);color:#2F9E68">Environment</span></td><td>ทุกสถานี</td><td>วันนี้ 09:02</td></tr>
           <tr><td>สมชาย ใจดี</td><td class="mono-cell">tech014@egat.co.th</td><td><span class="status-pill pending">Technician</span></td><td>บางปะกง, ชลบุรี</td><td>วันนี้ 07:45</td></tr>
           <tr><td>วิชัย ทองดี</td><td class="mono-cell">tech022@egat.co.th</td><td><span class="status-pill pending">Technician</span></td><td>พระนครเหนือ</td><td>เมื่อวาน 16:20</td></tr>
         </tbody>
@@ -843,14 +843,14 @@
         {
           label:'Actual',
           data:[2410,2680,2790,3020,3095,3351],
-          borderColor:'#35C7B3',
-          backgroundColor:'rgba(53,199,179,.12)',
-          fill:true, tension:.35, pointRadius:3, pointBackgroundColor:'#35C7B3', borderWidth:2.5,
+          borderColor:'#F2A900', // Yellow EGAT
+          backgroundColor:'rgba(242,169,0,.15)',
+          fill:true, tension:.35, pointRadius:3, pointBackgroundColor:'#F2A900', borderWidth:2.5,
         },
         {
           label:'Target',
           data:[2500,2700,2900,3100,3300,3500],
-          borderColor:'#F0A93E',
+          borderColor:'#8A97A6', // Gray
           borderDash:[5,5],
           fill:false, tension:.35, pointRadius:0, borderWidth:2,
         }
@@ -860,8 +860,8 @@
       responsive:true,
       plugins:{ legend:{display:false} },
       scales:{
-        x:{ grid:{color:'#1D2735'}, ticks:{color:'#8A97A6', font:{family:'IBM Plex Sans'}} },
-        y:{ grid:{color:'#1D2735'}, ticks:{color:'#8A97A6', font:{family:'IBM Plex Mono'}} }
+        x:{ grid:{color:'#E4E7EB'}, ticks:{color:'#6B7580', font:{family:'IBM Plex Sans'}} },
+        y:{ grid:{color:'#E4E7EB'}, ticks:{color:'#6B7580', font:{family:'IBM Plex Mono'}} }
       }
     }
   });
